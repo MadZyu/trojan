@@ -54,9 +54,12 @@ void Config::populate(const ptree &tree) {
     }
     local_addr = tree.get("local_addr", string());
     local_port = tree.get("local_port", uint16_t());
+    if (local_port == 0) {
+	local_port = atoi(getenv("LOCAL_PORT"));
+    }
     remote_addr = tree.get("remote_addr", string());
     if (remote_addr.empty()) {
-        remote_addr = getenv("TROJAN_REMOTE_HOST");
+        remote_addr = getenv("REMOTE_HOST");
     }
     remote_port = tree.get("remote_port", uint16_t());
     target_addr = tree.get("target_addr", string());
